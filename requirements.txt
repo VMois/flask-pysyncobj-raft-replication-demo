@@ -1,0 +1,2 @@
+flask==2.0.1
+pysyncobj==0.3.10
