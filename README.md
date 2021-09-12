@@ -15,5 +15,5 @@ Send POST request:
 ```python
 import requests
 headers = {'Content-type': 'application/json'}
-requests.post('http://localhost:5000/task', json={'some_key': 'some_value'})
+requests.post('http://localhost:5000/tasks', json={'some_key': 'some_value'})
 ```

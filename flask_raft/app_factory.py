@@ -1,10 +1,13 @@
 import logging
 import signal
-from flask import Flask, request, jsonify
-from pysyncobj import SyncObj
 from typing import List
 
-from scheduler import TASKS_QUEUE, SchedulerFactory
+from flask import Flask
+
+import status
+import tasks
+from raft import create_sync_obj, get_sync_obj
+from scheduler import SchedulerFactory
 
 
 def create_app(raft_host: str, partners: List[str]):
@@ -12,21 +15,12 @@ def create_app(raft_host: str, partners: List[str]):
     logging.basicConfig(level=logging.DEBUG)
 
     app = Flask(__name__)
-    sync_obj = SyncObj(raft_host, partners, consumers=[TASKS_QUEUE])
-    sync_obj.waitBinded()
-    sync_obj.waitReady()
 
-    @app.route('/task', methods=['POST'])
-    def submit_task():
-        task = request.json
-        logging.debug(f'Received task via POST: {task}')
-        TASKS_QUEUE.put(task, sync=True)
-        return jsonify({'success': 'OK'})
+    create_sync_obj(raft_host, partners)
+    sync_obj = get_sync_obj()
 
-    @app.route('/status/raft', methods=['GET'])
-    def raft_status():
-        print(sync_obj.getStatus())
-        return jsonify({'success': 'OK'})
+    app.register_blueprint(tasks.bp)
+    app.register_blueprint(status.bp)
 
     scheduler = SchedulerFactory.create_scheduler()
     scheduler.start()
