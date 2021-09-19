@@ -1,4 +1,7 @@
-# Flask + PySyncObj Raft replication demo
+# Raft replication in Python with Flask + PySyncObj (WIP)
+
+Demo of using [PySyncObj](https://github.com/bakwc/PySyncObj) library 
+to replicate Flask app using [Raft](https://raft.github.io) consensus algorithm.
 
 ## Testing
 
@@ -15,5 +18,6 @@ Send POST request:
 ```python
 import requests
 headers = {'Content-type': 'application/json'}
-requests.post('http://localhost:5000/tasks', json={'some_key': 'some_value'})
+msg = {'divider': 2}
+requests.post('http://localhost:5000/tasks', json=msg)
 ```
