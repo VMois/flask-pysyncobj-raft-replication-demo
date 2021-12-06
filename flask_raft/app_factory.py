@@ -12,7 +12,7 @@ from scheduler import SchedulerFactory
 
 def create_app(raft_host: str, partners: List[str]):
     # for development purposes only
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG, force=True)
 
     app = Flask(__name__)
 
