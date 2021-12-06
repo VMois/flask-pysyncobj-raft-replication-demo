@@ -32,7 +32,9 @@ def get_distributed_queue() -> ReplQueue:
 def get_status() -> Dict:
     status = get_sync_obj().getStatus()
     status['self'] = status['self'].address
-    status['leader'] = status['leader'].address
+
+    if status['leader']:
+        status['leader'] = status['leader'].address
 
     serializable_status = {
         **status,
