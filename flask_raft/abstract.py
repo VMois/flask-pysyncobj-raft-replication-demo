@@ -20,7 +20,7 @@ class Scheduler(threading.Thread, ABC):
         Init all necessary resources here.
         :return: None
         """
-        raise NotImplemented
+        raise NotImplementedError()
 
     @abstractmethod
     def shutdown(self) -> None:
@@ -29,7 +29,7 @@ class Scheduler(threading.Thread, ABC):
         Use it to clean up all resources before scheduler exits.
         :return: None
         """
-        raise NotImplemented
+        raise NotImplementedError()
 
     @abstractmethod
     def handle(self) -> None:
@@ -39,7 +39,7 @@ class Scheduler(threading.Thread, ABC):
         Must be non-blocking.
         :return: None
         """
-        raise NotImplemented
+        raise NotImplementedError()
 
     def run(self) -> None:
         """
